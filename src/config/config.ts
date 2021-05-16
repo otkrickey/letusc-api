@@ -22,6 +22,7 @@ const dotenv_error = (name: string, defaultValue?: string): string => { logging.
 
 const SERVER_HOSTNAME = process.env.SERVER_HOSTNAME ?? dotenv_error('SERVER_HOSTNAME');
 const SERVER_PORT = process.env.SERVER_PORT ?? dotenv_error('SERVER_PORT');
+const HOST_DIR = process.env.HOST_DIR ?? dotenv_error('HOST_DIR');
 
 // const GOOGLE_CLOUD_CLIENT_ID = process.env.GOOGLE_CLOUD_CLIENT_ID ?? dotenv_error('GOOGLE_CLOUD_CLIENT_ID');
 // const GOOGLE_CLOUD_CLIENT_SECRET = process.env.GOOGLE_CLOUD_CLIENT_SECRET ?? dotenv_error('GOOGLE_CLOUD_CLIENT_SECRET');
@@ -38,6 +39,7 @@ const SERVER_PORT = process.env.SERVER_PORT ?? dotenv_error('SERVER_PORT');
 const SERVER = {
     hostname: SERVER_HOSTNAME,
     port: SERVER_PORT,
+    hostDir: HOST_DIR,
 };
 
 // const GOOGLE_CLOUD = {

@@ -4,6 +4,8 @@ import express, { NextFunction, Request, Response } from 'express';
 import http from 'http';
 import createHttpError from 'http-errors';
 import logger from 'morgan';
+import path from 'path';
+import { config } from './config';
 import { HttpException } from './exceptions/HttpException';
 
 const app = express();
@@ -13,6 +15,8 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+app.use(express.static(path.join(__dirname, '../', config.server.hostDir)));
 
 app.use((req, res, next) => { next(createHttpError(404)); });
 
@@ -24,7 +28,7 @@ app.use((err: HttpException, req: Request, res: Response, next: NextFunction) =>
 });
 
 const debug = Debug('express:server');
-const port = process.env.PORT || 3000;
+const port = config.server.port || 3000;
 app.set('port', port);
 const server = http.createServer(app);
 server.listen(port);

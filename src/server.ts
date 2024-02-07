@@ -1,5 +1,6 @@
 import http from 'http';
 import { Server, Socket } from 'socket.io';
+import { config } from './config';
 
 const server = http.createServer();
 
@@ -7,7 +8,8 @@ const io = new Server(server, {
     cors: {
         origin: [
             "http://localhost:3000",
-            "https://letusc.otkrickey.com",
+            "http://letusc-api.otkrickey.com",
+            "https://letusc-api.otkrickey.com",
         ],
         methods: ["GET", "POST"]
     }
@@ -28,6 +30,6 @@ io.on('connection', (socket: Socket) => {
     });
 });
 
-server.listen(3000, () => {
-    console.log('listening on *:3000');
+server.listen(config.server.port, () => {
+    console.log(`listening on *:${config.server.port}`);
 });

@@ -1,38 +1,33 @@
-import cookieParser from 'cookie-parser';
-import Debug from 'debug';
-import express, { NextFunction, Request, Response } from 'express';
 import http from 'http';
-import createHttpError from 'http-errors';
-import logger from 'morgan';
-import path from 'path';
-import { config } from './config';
-import { HttpException } from './exceptions/HttpException';
+import { Server, Socket } from 'socket.io';
 
-const app = express();
-const NAMESPACE = 'Server';
+const server = http.createServer();
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-
-app.use(express.static(path.join(__dirname, '../', config.server.hostDir)));
-
-app.use((req, res, next) => { next(createHttpError(404)); });
-
-app.use((err: HttpException, req: Request, res: Response, next: NextFunction) => {
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-    res.status(err.status || 500);
-    res.send('error');
+const io = new Server(server, {
+    cors: {
+        origin: [
+            "http://localhost:3000",
+            "https://letusc.otkrickey.com",
+        ],
+        methods: ["GET", "POST"]
+    }
 });
 
-const debug = Debug('express:server');
-const port = config.server.port || 3000;
-app.set('port', port);
-const server = http.createServer(app);
-server.listen(port);
-server.on('listening', () => {
-    const address = server.address();
-    debug(`Listening on ${address}`)
+io.on('connection', (socket: Socket) => {
+    console.log('a user connected');
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
+    });
+    socket.on('chat message', (msg: string) => {
+        console.log('message: ' + msg);
+        io.emit('chat message', msg);
+    });
+    socket.on('message', (msg: string) => {
+        console.log('message: ' + msg);
+        io.emit('message', msg);
+    });
+});
+
+server.listen(3000, () => {
+    console.log('listening on *:3000');
 });

@@ -1,11 +1,14 @@
 export interface LetuscStatusEventPayload {
-    vpn_status: string;
-    discord_bot_status: string;
+    connected: boolean;
+    alive: boolean;
 }
 
 export interface LoginEventPayload {
-    email: string;
+    student_id: string;
+    discord_id: string;
     password: string;
+    username: string;
+    discriminator: string;
 }
 
 export interface ExtendedLoginEventPayload extends LoginEventPayload {
@@ -14,5 +17,8 @@ export interface ExtendedLoginEventPayload extends LoginEventPayload {
 
 export interface LoginProgressEventPayload {
     client: string;
+    type: string;
+    status: string;
     progress: number;
+    total: number;
 }

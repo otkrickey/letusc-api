@@ -32,7 +32,7 @@ LocalLetuscServer.on('connection', (socket: Socket) => {
 
     // send progress of login
     socket.on('progress', (data: LoginProgressEventPayload) => {
-        console.log('progress: ' + JSON.stringify(data));
+        console.log(`private-${data.client}:progress: ${JSON.stringify(data)}`);
         io.to(`private-${data.client}`).emit('progress', data);
     });
 });
@@ -66,7 +66,7 @@ io.on('connection', (socket: Socket) => {
         };
         LocalLetuscServer.emit('login', next_payload);
 
-        console.log('login: ' + JSON.stringify(data));
+        console.log(`private-${socket.id}:login: ${JSON.stringify(data)}`);
     });
 
 });

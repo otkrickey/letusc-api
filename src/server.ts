@@ -11,6 +11,8 @@ const io = new Server(server, {
             "http://localhost:3000",
             "http://letusc-api.otkrickey.com",
             "https://letusc-api.otkrickey.com",
+            "http://letusc.otkrickey.com",
+            "https://letusc.otkrickey.com",
         ],
         methods: ["GET", "POST"]
     }

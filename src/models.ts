@@ -15,10 +15,21 @@ export interface ExtendedLoginEventPayload extends LoginEventPayload {
     client: string;
 }
 
+export enum StatusType {
+    START = "start",
+    SUCCESS = "success",
+    WAIT = "wait",
+    CLICK = "click",
+    INPUT = "input",
+    END = "end",
+    ERROR = "error",
+}
+
 export interface LoginProgressEventPayload {
     client: string;
     type: string;
-    status: string;
+    message: string;
+    status: StatusType;
     progress: number;
     total: number;
 }
